@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+
+  - include:
+      file: db/changelog/001-create-schema.yaml
+      relativeToChangelogFile: false
+
+  - include:
+      file: db/changelog/002-seed-data.yaml
+      relativeToChangelogFile: false
+
+  - include:
+      file: db/changelog/003-update-passwords.yaml
+      relativeToChangelogFile: false

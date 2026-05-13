@@ -1,0 +1,258 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 002-seed-menu-categories
+      author: lxudrr
+      changes:
+        - insert:
+            tableName: menu_category
+            columns:
+              - column: { name: name, value: "Супи" }
+              - column: { name: sort_order, valueNumeric: 1 }
+        - insert:
+            tableName: menu_category
+            columns:
+              - column: { name: name, value: "Холодні закуски" }
+              - column: { name: sort_order, valueNumeric: 2 }
+        - insert:
+            tableName: menu_category
+            columns:
+              - column: { name: name, value: "Гарячі страви" }
+              - column: { name: sort_order, valueNumeric: 3 }
+        - insert:
+            tableName: menu_category
+            columns:
+              - column: { name: name, value: "Десерти" }
+              - column: { name: sort_order, valueNumeric: 4 }
+        - insert:
+            tableName: menu_category
+            columns:
+              - column: { name: name, value: "Напої" }
+              - column: { name: sort_order, valueNumeric: 5 }
+
+  - changeSet:
+      id: 002-seed-menu-items
+      author: lxudrr
+      changes:
+        # Супи (category_id = 1)
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Борщ з пампушками" }
+              - column: { name: description, value: "Традиційний червоний борщ з часниковими пампушками" }
+              - column: { name: price, valueNumeric: 89.00 }
+              - column: { name: category_id, valueNumeric: 1 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Курячий бульйон" }
+              - column: { name: description, value: "Прозорий бульйон з домашньою локшиною" }
+              - column: { name: price, valueNumeric: 65.00 }
+              - column: { name: category_id, valueNumeric: 1 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Крем-суп з грибами" }
+              - column: { name: description, value: "Оксамитовий суп з печерицями та вершками" }
+              - column: { name: price, valueNumeric: 95.00 }
+              - column: { name: category_id, valueNumeric: 1 }
+              - column: { name: is_available, valueBoolean: true }
+        # Холодні закуски (category_id = 2)
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Салат Олів'є" }
+              - column: { name: description, value: "Класичний салат з варених овочів та ковбаси" }
+              - column: { name: price, valueNumeric: 120.00 }
+              - column: { name: category_id, valueNumeric: 2 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Оселедець під шубою" }
+              - column: { name: description, value: "Шарований салат з оселедця та овочів" }
+              - column: { name: price, valueNumeric: 110.00 }
+              - column: { name: category_id, valueNumeric: 2 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "М'ясна нарізка" }
+              - column: { name: description, value: "Асорті з ковбас та м'ясних делікатесів" }
+              - column: { name: price, valueNumeric: 145.00 }
+              - column: { name: category_id, valueNumeric: 2 }
+              - column: { name: is_available, valueBoolean: true }
+        # Гарячі страви (category_id = 3)
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Котлета по-київськи" }
+              - column: { name: description, value: "Куряча котлета з вершковим маслом та зеленню" }
+              - column: { name: price, valueNumeric: 180.00 }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Печеня по-домашньому" }
+              - column: { name: description, value: "Свинина тушкована з картоплею та цибулею" }
+              - column: { name: price, valueNumeric: 220.00 }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Риба запечена з овочами" }
+              - column: { name: description, value: "Філе судака запечене з сезонними овочами" }
+              - column: { name: price, valueNumeric: 195.00 }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Вареники з картоплею" }
+              - column: { name: description, value: "Домашні вареники зі сметаною та шкварками" }
+              - column: { name: price, valueNumeric: 130.00 }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: is_available, valueBoolean: true }
+        # Десерти (category_id = 4)
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Медовик" }
+              - column: { name: description, value: "Торт медовий зі сметанним кремом" }
+              - column: { name: price, valueNumeric: 95.00 }
+              - column: { name: category_id, valueNumeric: 4 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Наполеон" }
+              - column: { name: description, value: "Класичний торт з листкового тіста з заварним кремом" }
+              - column: { name: price, valueNumeric: 85.00 }
+              - column: { name: category_id, valueNumeric: 4 }
+              - column: { name: is_available, valueBoolean: true }
+        # Напої (category_id = 5)
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Кава американо" }
+              - column: { name: description, value: "Чорна кава з гарячою водою" }
+              - column: { name: price, valueNumeric: 55.00 }
+              - column: { name: category_id, valueNumeric: 5 }
+              - column: { name: is_available, valueBoolean: true }
+        - insert:
+            tableName: menu_item
+            columns:
+              - column: { name: name, value: "Узвар домашній" }
+              - column: { name: description, value: "Компот із сухофруктів" }
+              - column: { name: price, valueNumeric: 45.00 }
+              - column: { name: category_id, valueNumeric: 5 }
+              - column: { name: is_available, valueBoolean: true }
+
+  - changeSet:
+      id: 002-seed-restaurant-tables
+      author: lxudrr
+      changes:
+        # Столики на 2 місця
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 1 }
+              - column: { name: capacity, valueNumeric: 2 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 2 }
+              - column: { name: capacity, valueNumeric: 2 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 3 }
+              - column: { name: capacity, valueNumeric: 2 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 4 }
+              - column: { name: capacity, valueNumeric: 2 }
+              - column: { name: status, value: "FREE" }
+        # Столики на 4 місця
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 5 }
+              - column: { name: capacity, valueNumeric: 4 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 6 }
+              - column: { name: capacity, valueNumeric: 4 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 7 }
+              - column: { name: capacity, valueNumeric: 4 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 8 }
+              - column: { name: capacity, valueNumeric: 4 }
+              - column: { name: status, value: "FREE" }
+        # Столики на 6 місць
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 9 }
+              - column: { name: capacity, valueNumeric: 6 }
+              - column: { name: status, value: "FREE" }
+        - insert:
+            tableName: restaurant_table
+            columns:
+              - column: { name: number, valueNumeric: 10 }
+              - column: { name: capacity, valueNumeric: 6 }
+              - column: { name: status, value: "FREE" }
+
+  - changeSet:
+      id: 002-seed-employees
+      author: lxudrr
+      changes:
+        - insert:
+            tableName: employee
+            columns:
+              - column: { name: full_name, value: "Марія Коваленко" }
+              - column: { name: login, value: "m.kovalenko" }
+              - column: { name: password_hash, value: "PLACEHOLDER" }
+              - column: { name: role, value: "WAITER" }
+              - column: { name: is_active, valueBoolean: true }
+        - insert:
+            tableName: employee
+            columns:
+              - column: { name: full_name, value: "Іван Петренко" }
+              - column: { name: login, value: "i.petrenko" }
+              - column: { name: password_hash, value: "PLACEHOLDER" }
+              - column: { name: role, value: "COOK" }
+              - column: { name: is_active, valueBoolean: true }
+        - insert:
+            tableName: employee
+            columns:
+              - column: { name: full_name, value: "Олена Сидоренко" }
+              - column: { name: login, value: "o.sydorenko" }
+              - column: { name: password_hash, value: "PLACEHOLDER" }
+              - column: { name: role, value: "CASHIER" }
+              - column: { name: is_active, valueBoolean: true }
+        - insert:
+            tableName: employee
+            columns:
+              - column: { name: full_name, value: "Тарас Бондаренко" }
+              - column: { name: login, value: "t.bondarenko" }
+              - column: { name: password_hash, value: "PLACEHOLDER" }
+              - column: { name: role, value: "ADMIN" }
+              - column: { name: is_active, valueBoolean: true }

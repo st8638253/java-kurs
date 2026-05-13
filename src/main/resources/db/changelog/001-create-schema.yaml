@@ -1,0 +1,317 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 001-create-menu-category
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: menu_category
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_menu_category
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_menu_category_name
+              - column:
+                  name: sort_order
+                  type: INTEGER
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-create-menu-item
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: menu_item
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_menu_item
+              - column:
+                  name: name
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_menu_item_category
+                    references: menu_category(id)
+              - column:
+                  name: is_available
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: ALTER TABLE menu_item ADD CONSTRAINT chk_menu_item_price_positive CHECK (price > 0)
+
+  - changeSet:
+      id: 001-create-restaurant-table
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: restaurant_table
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_restaurant_table
+              - column:
+                  name: number
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_restaurant_table_number
+              - column:
+                  name: capacity
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  defaultValue: FREE
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: >
+              ALTER TABLE restaurant_table
+                ADD CONSTRAINT chk_restaurant_table_status CHECK (status IN ('FREE', 'OCCUPIED', 'RESERVED')),
+                ADD CONSTRAINT chk_restaurant_table_capacity_positive CHECK (capacity > 0)
+
+  - changeSet:
+      id: 001-create-employee
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: employee
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_employee
+              - column:
+                  name: full_name
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: login
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_employee_login
+              - column:
+                  name: password_hash
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: ALTER TABLE employee ADD CONSTRAINT chk_employee_role CHECK (role IN ('WAITER', 'COOK', 'CASHIER', 'ADMIN'))
+
+  - changeSet:
+      id: 001-create-orders
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_orders
+              - column:
+                  name: table_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_orders_table
+                    references: restaurant_table(id)
+              - column:
+                  name: waiter_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_orders_waiter
+                    references: employee(id)
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  defaultValue: OPEN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: closed_at
+                  type: TIMESTAMP
+              - column:
+                  name: total_amount
+                  type: DECIMAL(10, 2)
+                  defaultValueNumeric: 0.00
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: >
+              ALTER TABLE orders
+                ADD CONSTRAINT chk_orders_status CHECK (status IN ('OPEN', 'IN_PROGRESS', 'READY', 'SERVED', 'CLOSED', 'CANCELLED'))
+
+  - changeSet:
+      id: 001-create-order-item
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: order_item
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_order_item
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_item_order
+                    references: orders(id)
+              - column:
+                  name: menu_item_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_item_menu_item
+                    references: menu_item(id)
+              - column:
+                  name: quantity
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  defaultValue: NEW
+                  constraints:
+                    nullable: false
+              - column:
+                  name: note
+                  type: TEXT
+              - column:
+                  name: cancel_reason
+                  type: TEXT
+        - sql:
+            sql: >
+              ALTER TABLE order_item
+                ADD CONSTRAINT chk_order_item_status CHECK (status IN ('NEW', 'COOKING', 'READY', 'SERVED', 'CANCELLED')),
+                ADD CONSTRAINT chk_order_item_quantity_positive CHECK (quantity > 0)
+
+  - changeSet:
+      id: 001-create-payment
+      author: lxudrr
+      changes:
+        - createTable:
+            tableName: payment
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_payment
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_payment_order
+                    foreignKeyName: fk_payment_order
+                    references: orders(id)
+              - column:
+                  name: cashier_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_payment_cashier
+                    references: employee(id)
+              - column:
+                  name: amount
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: method
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid_at
+                  type: TIMESTAMP
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: >
+              ALTER TABLE payment
+                ADD CONSTRAINT chk_payment_method CHECK (method IN ('CASH', 'CARD')),
+                ADD CONSTRAINT chk_payment_amount_positive CHECK (amount > 0)
